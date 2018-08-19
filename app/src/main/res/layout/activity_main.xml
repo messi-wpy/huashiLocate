@@ -1,18 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.amap.api.maps.MapView
+    <include layout="@layout/view_map_route"
+        android:id="@+id/map_route_id"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
 
-        android:id="@+id/map"
 
+    <include layout="@layout/view_map_bottom"
+        android:id="@+id/map_bottom_id"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_alignParentBottom="true"/>
 
-        android:layout_height="match_parent"/>
+
+    <com.amap.api.maps.MapView
+        android:layout_below="@id/map_route_id"
+        android:layout_above="@id/map_bottom_id"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.amap.api.maps.MapView>
+
+    <LinearLayout
+        android:id="@+id/hind_layout"
+        android:visibility="invisible"
+        android:background="@color/colorBlack"
+        android:alpha="0.4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/map_route_id"
+        android:layout_above="@id/map_bottom_id"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/hind_recycler_view"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
