@@ -86,7 +86,7 @@ public class WalkRouteOverlay extends RouteOverlay {
      * @param walkStep
      * @return
      */
-    private LatLonPoint getLastWalkPoint(WalkStep walkStep) {
+    public LatLonPoint getLastWalkPoint(WalkStep walkStep) {
         return walkStep.getPolyline().get(walkStep.getPolyline().size() - 1);
     }
 
@@ -139,7 +139,8 @@ public class WalkRouteOverlay extends RouteOverlay {
         mPolylineOptions = null;
 
         mPolylineOptions = new PolylineOptions();
-        mPolylineOptions.color(getWalkColor()).width(getRouteWidth());
+        mPolylineOptions.color(getWalkColor())
+                        .width(getRouteWidth());
     }
 
 

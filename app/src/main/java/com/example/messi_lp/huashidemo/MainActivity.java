@@ -7,6 +7,7 @@ import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -173,6 +174,9 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
                 }
                 walkRouteOverlay=new WalkRouteOverlay(this,aMap,walkPath,
                         walkRouteResult.getStartPos(),walkRouteResult.getTargetPos());
+                LatLonPoint l=walkRouteOverlay.getLastWalkPoint(walkPath.getSteps().get(0));
+                Log.d(TAG, "onWalkRouteSearched: "+l.toString());
+
                 walkRouteOverlay.addToMap();
                 walkRouteOverlay.zoomToSpan();
             }

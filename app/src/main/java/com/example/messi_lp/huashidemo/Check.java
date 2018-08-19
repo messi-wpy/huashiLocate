@@ -6,9 +6,11 @@ import java.util.List;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -38,10 +40,7 @@ public class Check extends AppCompatActivity
      */
     protected String[] needPermissions = {
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE
+            //Manifest.permission.ACCESS_FINE_LOCATION
     };
 
     private static final int PERMISSON_REQUESTCODE = 0;
@@ -56,9 +55,49 @@ public class Check extends AppCompatActivity
         super.onResume();
         if(isNeedCheck){
             checkPermissions(needPermissions);
+            openGPSSettings();
         }
     }
 
+    private boolean checkGPSIsOpen() {
+        boolean isOpen;
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        isOpen = locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER);
+        return isOpen;
+    }
+    private void openGPSSettings() {
+        if (checkGPSIsOpen()) {
+            return;
+        } else {
+            //没有打开则弹出对话框
+            new AlertDialog.Builder(this)
+                    .setTitle("设置gps")
+                    .setMessage("gps")
+                    // 拒绝, 退出应用
+                    .setNegativeButton("取消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
+
+                    .setPositiveButton("设置",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //跳转GPS设置界面
+                                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivity(intent);
+                                }
+                            })
+
+                    .setCancelable(false)
+                    .show();
+
+        }
+    }
     /**
      *
      * @param
