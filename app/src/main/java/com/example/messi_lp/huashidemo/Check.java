@@ -18,6 +18,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 /**
  * 继承了Activity，实现Android6.0的运行时权限检测
@@ -40,7 +41,7 @@ public class Check extends AppCompatActivity
      */
     protected String[] needPermissions = {
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            //Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_FINE_LOCATION
     };
 
     private static final int PERMISSON_REQUESTCODE = 0;
@@ -59,6 +60,8 @@ public class Check extends AppCompatActivity
         }
     }
 
+
+    //检查定位服务是否打开
     private boolean checkGPSIsOpen() {
         boolean isOpen;
         LocationManager locationManager = (LocationManager) this
@@ -68,6 +71,7 @@ public class Check extends AppCompatActivity
     }
     private void openGPSSettings() {
         if (checkGPSIsOpen()) {
+            Toast.makeText(this,"opened",Toast.LENGTH_LONG).show();
             return;
         } else {
             //没有打开则弹出对话框
@@ -106,8 +110,7 @@ public class Check extends AppCompatActivity
      */
     private void checkPermissions(String... permissions) {
         List<String> needRequestPermissonList = findDeniedPermissions(permissions);
-        if (null != needRequestPermissonList
-                && needRequestPermissonList.size() > 0) {
+        if (null != needRequestPermissonList) {
             ActivityCompat.requestPermissions(this,
                     needRequestPermissonList.toArray(
                             new String[needRequestPermissonList.size()]),
@@ -128,9 +131,7 @@ public class Check extends AppCompatActivity
         for (String perm : permissions) {
             if (ContextCompat.checkSelfPermission(this,
                     perm) != PackageManager.PERMISSION_GRANTED
-                    || ActivityCompat.shouldShowRequestPermissionRationale(
-                    this, perm)) {
-                Log.d("GAODE", "findDeniedPermissions: "+perm);
+                    ) {
                 needRequestPermissonList.add(perm);
             }
         }
@@ -173,7 +174,7 @@ public class Check extends AppCompatActivity
     private void showMissingPermissionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示");
-        builder.setMessage("当前应用缺少必要权限。\\n\\n请点击\\\"设置\\\"-\\\"权限\\\"-打开所需权限。");
+        builder.setMessage("当前应用定位权限。\\n请点击\\\"设置\\\"-\\\"权限\\\"-打开所需权限。");
 
         // 拒绝, 退出应用
         builder.setNegativeButton("取消",

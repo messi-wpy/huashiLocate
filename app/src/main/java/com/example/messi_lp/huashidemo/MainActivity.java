@@ -93,6 +93,13 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
         routeSearch=new RouteSearch(this);
         routeSearch.setRouteSearchListener(this);
 
+        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+            }
+        });
+
 
 
     }

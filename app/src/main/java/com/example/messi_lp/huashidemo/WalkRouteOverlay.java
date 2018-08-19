@@ -121,6 +121,7 @@ public class WalkRouteOverlay extends RouteOverlay {
     private void addWalkStationMarkers(WalkStep walkStep, LatLng position) {
         addStationMarker(new MarkerOptions()
                 .position(position)
+                .infoWindowEnable(false)
                 .title("\u65B9\u5411:" + walkStep.getAction()
                         + "\n\u9053\u8DEF:" + walkStep.getRoad())
                 .snippet(walkStep.getInstruction()).visible(nodeIconVisible)
