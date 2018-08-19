@@ -96,7 +96,7 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
         aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-
+                return false;
             }
         });
 

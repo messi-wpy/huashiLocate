@@ -110,7 +110,7 @@ public class Check extends AppCompatActivity
      */
     private void checkPermissions(String... permissions) {
         List<String> needRequestPermissonList = findDeniedPermissions(permissions);
-        if (null != needRequestPermissonList) {
+        if (needRequestPermissonList!=null&&needRequestPermissonList.size()>0) {
             ActivityCompat.requestPermissions(this,
                     needRequestPermissonList.toArray(
                             new String[needRequestPermissonList.size()]),
