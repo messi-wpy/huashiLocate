@@ -3,7 +3,6 @@ package com.example.messi_lp.huashidemo;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -14,21 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
-import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
-import com.amap.api.services.core.PoiItem;
-import com.amap.api.services.poisearch.PoiResult;
-import com.amap.api.services.poisearch.PoiSearch;
 import com.amap.api.services.route.BusRouteResult;
 import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
@@ -46,31 +36,63 @@ public class MainActivity extends Check implements AMap.OnMyLocationChangeListen
     private RouteSearch routeSearch;
     private WalkRouteOverlay walkRouteOverlay;
 
-    private EditText mStartText;
-    private EditText mEndText;
-    private ImageView mExchangeImage;
-    private EditText mSearchText;
-    private ImageView mSearchIamge;
-    private TextView mBottomName;
-    private TextView mBottomTime;
-    private TextView mBottomDetail;
-    private Button mModeButton;
-    private LinearLayout mSearchLayout;
-    private LinearLayout mRouteLayout;
-    private LinearLayout mHideLayout;
-    private RecyclerView mHideRecycler;
-    private ImageView mBackImage;
+    private LinearLayout mLayoutDetails;
+    private TextView mTvSite;
+    private TextView mTvDetail;
+    private TextView mTvMore;
+
+    private LinearLayout mLayoutSearch;
+    private EditText mEtSearch;
+    private ImageView mImgSearch;
+
+    private Button mBtnRoute;
+
+    private LinearLayout mLayoutRoute;
+    private EditText mEtStart;
+    private EditText mEtEnd;
+
 
     private LatLonPoint mStartPoint;
     private LatLonPoint mEndPoint;
     private LatLonPoint mSearchPoint;
 
     private void initView() {
-        mStartText = findViewById(R.id.map_start_place);
-        mEndText = findViewById(R.id.map_end_place);
-        mExchangeImage = findViewById(R.id.map_exchange_image);
+        mLayoutDetails = findViewById(R.id.map_bottom_id);
+        mTvSite = findViewById(R.id.map_bottom_site);
+        mTvDetail = findViewById(R.id.map_bottom_detail);
+        mTvMore = findViewById(R.id.map_bottom_more);
+        mTvMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(),PointDetails.class);
+                intent.putExtra("地点","");
+                intent.putExtra("详情","");
+                intent.putExtra("图片","");
+                startActivity(intent);
+            }
+        });
 
+        mLayoutSearch = findViewById(R.id.map_top_search);
+        mEtSearch = findViewById(R.id.map_top_edt);
+        mImgSearch = findViewById(R.id.map_top_button);
 
+        mLayoutRoute = findViewById(R.id.map_top_route);
+        mEtStart = findViewById(R.id.map_top_starting);
+        mEtEnd = findViewById(R.id.map_top_destination);
+
+        mBtnRoute = findViewById(R.id.map_route_button);
+        mBtnRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mLayoutRoute.getVisibility() != View.VISIBLE){
+                    mLayoutSearch.setVisibility(View.GONE);
+                    mLayoutRoute.setVisibility(View.VISIBLE);
+                }else {
+                    mLayoutRoute.setVisibility(View.GONE);
+                    mLayoutSearch.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
     }
 
@@ -100,6 +122,8 @@ public class MainActivity extends Check implements AMap.OnMyLocationChangeListen
                 return false;
             }
         });
+
+        initView();
     }
 
 

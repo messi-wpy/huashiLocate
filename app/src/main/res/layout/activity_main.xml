@@ -53,7 +53,7 @@
         android:id="@+id/map_route_button"
         android:layout_width="88dp"
         android:layout_height="32dp"
-        android:background="@drawable/bg_route_button"
+        android:background="@drawable/bg_map_button"
         android:layout_above="@+id/map_bottom_id"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"

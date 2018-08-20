@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:elevation="10dp"
+    android:background="@color/colorWhite">
 
     <ImageView
         android:layout_marginTop="10dp"
@@ -13,11 +15,13 @@
         android:src="@drawable/ic_back"/>
 
     <LinearLayout
+        android:id="@+id/map_top_route"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="10dp"
-        android:background="@color/color_map_route">
+        android:background="@drawable/bg_map_top"
+        android:visibility="gone">
         <LinearLayout
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
@@ -41,7 +45,7 @@
             <EditText
                 android:hint="我的位置"
                 android:background="@null"
-                android:id="@+id/map_start_place"
+                android:id="@+id/map_top_starting"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingLeft="20dp"
@@ -58,16 +62,6 @@
                 android:src="@drawable/ic_map_more"
                 android:layout_width="20dp"
                 android:layout_height="20dp" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/color_map_route"/>
-            <ImageView
-                android:src="@drawable/ic_map_more"
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -79,7 +73,6 @@
                 android:background="@color/color_map_details"/>
 
             <ImageView
-                android:id="@+id/map_exchange_image"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="5dp"
@@ -113,11 +106,42 @@
                 android:textSize="14dp"
                 android:hint="输入终点"
                 android:background="@null"
-                android:id="@+id/map_end_place"
+                android:id="@+id/map_top_destination"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
         </LinearLayout>
 
     </LinearLayout>
-</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/map_top_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_map_top">
+        <EditText
+            android:id="@+id/map_top_edt"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:hint="仅限校内目的地"
+            android:background="@null"
+            android:textSize="14sp"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/color_map_start"
+            android:paddingLeft="10dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:visibility="visible"/>
+        <ImageView
+            android:id="@+id/map_top_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_map_search"
+            android:layout_marginRight="15dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
