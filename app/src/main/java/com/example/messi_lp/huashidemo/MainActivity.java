@@ -1,15 +1,19 @@
 package com.example.messi_lp.huashidemo;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
@@ -32,52 +36,51 @@ import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkPath;
 import com.amap.api.services.route.WalkRouteResult;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-
-public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener, AMap.OnMyLocationChangeListener, RouteSearch.OnRouteSearchListener {
+public class MainActivity extends Check implements AMap.OnMyLocationChangeListener, RouteSearch.OnRouteSearchListener, TextWatcher, View.OnFocusChangeListener {
 
     private MapView mMapView;
     private AMap aMap;
-    private AMapLocationClient client;
-    private AMapLocationListener listener;
-    private AMapLocationClientOption option=new AMapLocationClientOption();
     private final static String TAG="GAODE";
-    private LatLonPoint frome;
+    private LatLonPoint startPoint;
     private LatLonPoint to;
     private RouteSearch routeSearch;
     private WalkRouteOverlay walkRouteOverlay;
+
+    private EditText mStartText;
+    private EditText mEndText;
+    private ImageView mExchangeImage;
+    private EditText mSearchText;
+    private ImageView mSearchIamge;
+    private TextView mBottomName;
+    private TextView mBottomTime;
+    private TextView mBottomDetail;
+    private Button mModeButton;
+    private LinearLayout mSearchLayout;
+    private LinearLayout mRouteLayout;
+    private LinearLayout mHideLayout;
+    private RecyclerView mHideRecycler;
+    private ImageView mBackImage;
+
+    private LatLonPoint mStartPoint;
+    private LatLonPoint mEndPoint;
+    private LatLonPoint mSearchPoint;
+
+    private void initView() {
+        mStartText = findViewById(R.id.map_start_place);
+        mEndText = findViewById(R.id.map_end_place);
+        mExchangeImage = findViewById(R.id.map_exchange_image);
+
+
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       /* listener=new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (aMapLocation!=null){
-                    int a=aMapLocation.getErrorCode();
-                    if (aMapLocation.getErrorCode()==0){
-                        LatLng latLng = new LatLng(aMapLocation.getLatitude(),aMapLocation.getLongitude());
-                        aMap.moveCamera(CameraUpdateFactory.zoomTo(10));
-                        final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title("me").snippet("DefaultMarker"));
-                        aMap. moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-                    }else {
-                        Log.d(TAG, "onLocationChanged: fail"+aMapLocation.getErrorCode());
-                    }
-                }
-            }
-        };
-        client=new AMapLocationClient(getApplicationContext());
-        client.setLocationListener(listener);
-        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-        option.setInterval(2000);
-        client.setLocationOption(option);
-        client.startLocation();
-*/
 
         mMapView =  findViewById(R.id.map);
-        //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
         aMap=mMapView.getMap();
         MyLocationStyle myLocationStyle;
@@ -87,8 +90,6 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
 //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
         aMap.setMyLocationEnabled(true);
         aMap.setOnMyLocationChangeListener(this);
-        searchHelp("华中师范大学九号楼");
-
 
         routeSearch=new RouteSearch(this);
         routeSearch.setRouteSearchListener(this);
@@ -99,10 +100,10 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
                 return false;
             }
         });
-
-
-
     }
+
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -128,36 +129,9 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
         mMapView.onSaveInstanceState(outState);
     }
 
-    public void searchHelp(String locate){
-        PoiSearch.Query query=new PoiSearch.Query(locate,"","武汉");
-        PoiSearch poiSearch=new PoiSearch(this,query);
-        poiSearch.setOnPoiSearchListener(this);
-        poiSearch.searchPOIAsyn();
-    }
-
-    @Override
-    public void onPoiSearched(PoiResult poiResult, int i) {
-        Log.d(TAG, "onPoiSearched-result code: "+i);
-        LatLonPoint latLonPoint=poiResult.getPois().get(0).getLatLonPoint();
-        to=latLonPoint;
-        aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
-        LatLng p=new LatLng(latLonPoint.getLatitude(),latLonPoint.getLongitude());
-        aMap. moveCamera(CameraUpdateFactory.changeLatLng(p));
-        Marker marker=aMap.addMarker(new MarkerOptions().position(p).title("huashi"));
-        if (frome!=null){
-            RouteSearch.WalkRouteQuery query=new RouteSearch.WalkRouteQuery(new RouteSearch.FromAndTo(frome,to));
-            routeSearch.calculateWalkRouteAsyn(query);
-        }
-    }
-
-    @Override
-    public void onPoiItemSearched(PoiItem poiItem, int i) {
-
-    }
-
     @Override
     public void onMyLocationChange(Location location) {
-        frome=new LatLonPoint(location.getLatitude(),location.getLongitude());
+        startPoint =new LatLonPoint(location.getLatitude(),location.getLongitude());
     }
 
     @Override
@@ -193,6 +167,26 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
 
     @Override
     public void onRideRouteSearched(RideRouteResult rideRouteResult, int i) {
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+
+    }
+
+    @Override
+    public void onFocusChange(View view, boolean b) {
 
     }
 }

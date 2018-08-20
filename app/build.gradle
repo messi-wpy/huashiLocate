@@ -36,6 +36,7 @@ dependencies {
     //搜索功能
     implementation 'com.amap.api:search:6.1.0'
     implementation 'com.github.fengminchao:CardBanner:1.0'
+    implementation 'com.android.support:design:27.1.1'
 
     //noinspection GradleCompatible
     implementation 'com.android.support:design:27.1.1'
