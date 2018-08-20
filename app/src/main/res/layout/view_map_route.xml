@@ -55,15 +55,15 @@
             android:orientation="horizontal">
 
             <ImageView
-            android:src="@drawable/ic_map_more"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
-            <view
+                android:src="@drawable/ic_map_more"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="10dp"
-                android:solidColor="@color/color_map_route"/>
+                android:background="@color/color_map_route"/>
 
 
         </LinearLayout>
