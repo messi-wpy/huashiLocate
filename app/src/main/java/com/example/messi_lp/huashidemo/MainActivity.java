@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,20 +38,24 @@ public class MainActivity extends Check implements AMap.OnMyLocationChangeListen
     private WalkRouteOverlay walkRouteOverlay;
 
     private LinearLayout mLayoutDetails;
+    private LinearLayout mLayoutSearch;
+    private LinearLayout mLayoutRoute;
+
     private TextView mTvSite;
     private TextView mTvDetail;
     private TextView mTvMore;
-
-    private LinearLayout mLayoutSearch;
     private EditText mEtSearch;
     private ImageView mImgSearch;
-
     private Button mBtnRoute;
+    private ImageView mImgBack;
+    private ImageView mImgExchange;
 
-    private LinearLayout mLayoutRoute;
     private EditText mEtStart;
     private EditText mEtEnd;
 
+    private int MODE = 0;
+    private static final int MODE_ROUTE = 1;
+    private static final int MODE_SEARCH = 2;
 
     private LatLonPoint mStartPoint;
     private LatLonPoint mEndPoint;
@@ -61,6 +66,20 @@ public class MainActivity extends Check implements AMap.OnMyLocationChangeListen
         mTvSite = findViewById(R.id.map_bottom_site);
         mTvDetail = findViewById(R.id.map_bottom_detail);
         mTvMore = findViewById(R.id.map_bottom_more);
+
+        mLayoutSearch = findViewById(R.id.map_top_search);
+        mEtSearch = findViewById(R.id.map_top_edt);
+        mImgSearch = findViewById(R.id.map_top_button);
+        mLayoutRoute = findViewById(R.id.map_top_route);
+        mEtStart = findViewById(R.id.map_top_starting);
+        mEtEnd = findViewById(R.id.map_top_destination);
+        mBtnRoute = findViewById(R.id.map_route_button);
+        mImgBack = findViewById(R.id.map_top_back);
+        mImgExchange = findViewById(R.id.map_top_exchange);
+
+    }
+
+    private void initListener(){
         mTvMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,30 +91,46 @@ public class MainActivity extends Check implements AMap.OnMyLocationChangeListen
             }
         });
 
-        mLayoutSearch = findViewById(R.id.map_top_search);
-        mEtSearch = findViewById(R.id.map_top_edt);
-        mImgSearch = findViewById(R.id.map_top_button);
-
-        mLayoutRoute = findViewById(R.id.map_top_route);
-        mEtStart = findViewById(R.id.map_top_starting);
-        mEtEnd = findViewById(R.id.map_top_destination);
-
-        mBtnRoute = findViewById(R.id.map_route_button);
-        mBtnRoute.setOnClickListener(new View.OnClickListener() {
+        mImgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mLayoutRoute.getVisibility() != View.VISIBLE){
-                    mLayoutSearch.setVisibility(View.GONE);
-                    mLayoutRoute.setVisibility(View.VISIBLE);
+                if (MODE == MODE_SEARCH){
+                    finish();
                 }else {
-                    mLayoutRoute.setVisibility(View.GONE);
-                    mLayoutSearch.setVisibility(View.VISIBLE);
+                    exchangeMode();
                 }
             }
         });
 
-    }
+        mBtnRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exchangeMode();
+            }
+        });
 
+        mImgExchange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String temp = mEtStart.getText().toString();
+                mEtStart.setText(mEtEnd.getText().toString());
+                mEtEnd.setText(temp);
+            }
+        });
+    }
+    private void exchangeMode(){
+        if (MODE == MODE_SEARCH){
+            mLayoutSearch.setVisibility(View.GONE);
+            mLayoutRoute.setVisibility(View.VISIBLE);
+            mBtnRoute.setVisibility(View.GONE);
+            MODE = MODE_ROUTE;
+        }else{
+            mLayoutRoute.setVisibility(View.GONE);
+            mLayoutSearch.setVisibility(View.VISIBLE);
+            mBtnRoute.setVisibility(View.VISIBLE);
+            MODE = MODE_SEARCH;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +159,7 @@ public class MainActivity extends Check implements AMap.OnMyLocationChangeListen
         });
 
         initView();
+        initListener();
     }
 
 

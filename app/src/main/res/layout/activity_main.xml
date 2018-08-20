@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.amap.api.maps.MapView>
+
+
     <include layout="@layout/view_map_top"
         android:id="@+id/map_route_id"
         android:layout_height="wrap_content"
@@ -19,14 +27,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_alignParentBottom="true"/>
-
-
-    <com.amap.api.maps.MapView
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.amap.api.maps.MapView>
 
     <LinearLayout
         android:id="@+id/hind_layout"

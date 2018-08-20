@@ -8,6 +8,7 @@
     android:background="@color/colorWhite">
 
     <ImageView
+        android:id="@+id/map_top_back"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
@@ -50,6 +51,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="20dp"
                 android:textSize="14sp"
+                android:singleLine="true"
                 android:gravity="start" />
         </LinearLayout>
 
@@ -73,6 +75,7 @@
                 android:background="@color/color_map_details"/>
 
             <ImageView
+                android:id="@+id/map_top_exchange"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="5dp"
@@ -105,6 +108,7 @@
                 android:paddingLeft="20dp"
                 android:textSize="14dp"
                 android:hint="输入终点"
+                android:singleLine="true"
                 android:background="@null"
                 android:id="@+id/map_top_destination"
                 android:layout_width="match_parent"
@@ -128,6 +132,7 @@
             android:hint="仅限校内目的地"
             android:background="@null"
             android:textSize="14sp"
+            android:singleLine="true"
             android:layout_marginLeft="5dp"
             android:textColor="@color/color_map_start"
             android:paddingLeft="10dp"

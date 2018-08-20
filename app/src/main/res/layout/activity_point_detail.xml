@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,7 +17,7 @@
             <com.muxistudio.cardbanner.CardBanner
                 android:id="@+id/map_detail_banner"
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="350dp"
                 android:layout_centerVertical="true"
                 app:cardMargin="0dp"
                 app:baseElevation="2dp"
@@ -28,10 +28,13 @@
 
             </com.muxistudio.cardbanner.CardBanner>
 
-            <include layout="@layout/view_point_details"/>
+            <include layout="@layout/view_point_details"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"/>
 
         </LinearLayout>
     </ScrollView>
 
 
-</LinearLayout>
+</RelativeLayout>
