@@ -43,7 +43,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/hind_recycler_view"
-            android:background="@color/white"
+            android:background="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
