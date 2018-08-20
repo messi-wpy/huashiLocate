@@ -22,8 +22,6 @@
 
 
     <com.amap.api.maps.MapView
-        android:layout_below="@id/map_route_id"
-        android:layout_above="@id/map_bottom_id"
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,5 +49,16 @@
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/map_route"
+        android:layout_width="88dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_route_button"
+        android:layout_above="@+id/map_bottom_id"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="路线"
+        android:textSize="14sp"
+        android:textColor="@color/colorWhite"/>
 
 </RelativeLayout>

@@ -1,12 +1,15 @@
 package com.example.messi_lp.huashidemo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -48,6 +51,7 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
     private LatLonPoint to;
     private RouteSearch routeSearch;
     private WalkRouteOverlay walkRouteOverlay;
+    private TextView more;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +104,16 @@ public class MainActivity extends Check implements PoiSearch.OnPoiSearchListener
             }
         });
 
+        more = findViewById(R.id.map_bottom_more);
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(),PointDetails.class);
+//                intent.putExtra("latitude",0);
+//                intent.putExtra("longitude",0);
+                startActivity(intent);
+            }
+        });
 
 
     }
